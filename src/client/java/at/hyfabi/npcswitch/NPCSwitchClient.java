@@ -14,6 +14,7 @@ import net.minecraft.text.Text;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import static at.hyfabi.npcswitch.MCCommand.registerCommands;
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 // word()
 import static com.mojang.brigadier.arguments.StringArgumentType.word;
@@ -39,22 +40,9 @@ public class NPCSwitchClient implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			AlgorithmHandler.SINGLETON.tick(client);
 		});
+		registerCommands();
 
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("mul")
-
-				.executes(context -> executeMultiply(IntegerArgumentType.getInteger(context, "value"), IntegerArgumentType.getInteger(context, "value"), context))
-
-				.executes(context -> executeMultiply(IntegerArgumentType.getInteger(context, "value"), IntegerArgumentType.getInteger(context, "value2"), context))));
-
-		}
-
-
-	private static int executeMultiply(int value, int value2, CommandContext<ServerCommandSource> context) {
-		final int result = value * value2;
-		context.getSource().sendFeedback(() -> Text.literal("%s × %s = %s".formatted(value, value2, result)), false);
-		return result;
 	}
-
 }
 
 

@@ -1,7 +1,9 @@
 package at.hyfabi.npcswitch.mixin.client;
 
+import at.hyfabi.npcswitch.algorithm.AlgorithmHandler;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,12 +15,10 @@ public class KeyboardMixin {
 
     @Inject(at = @At("HEAD"), method = "onKey")
     public void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci ){
-        if(key == GLFW.GLFW_KEY_1)
+        if(scancode == 36 ||  AlgorithmHandler.SINGLETON.algorithmState == AlgorithmHandler.AlgorithmState.MANUAL)
             return;
-
-        long l = MinecraftClient.getInstance().getWindow().getHandle();
-
-        MinecraftClient.getInstance().keyboard.onKey(l, GLFW.GLFW_KEY_1, GLFW.glfwGetKeyScancode(GLFW.GLFW_KEY_1), GLFW.GLFW_PRESS, 0);
+        AlgorithmHandler.SINGLETON.algorithmState = AlgorithmHandler.AlgorithmState.MANUAL;
+        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.literal("Stopped due to manual input"));
     }
 
 }
