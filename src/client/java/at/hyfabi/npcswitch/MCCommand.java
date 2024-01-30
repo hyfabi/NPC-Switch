@@ -1,6 +1,7 @@
 package at.hyfabi.npcswitch;
 
 import at.hyfabi.npcswitch.algorithm.AlgorithmHandler;
+import at.hyfabi.npcswitch.algorithm.Command;
 import at.hyfabi.npcswitch.algorithm.DigSquare;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -63,7 +64,9 @@ public class MCCommand {
             return 1;
         }
 
-        AlgorithmHandler.SINGLETON.queue.add(new DigSquare(positions.get(0), positions.get(1), command.getSource().getClient()));
+        Command command1 = new DigSquare(positions.get(0), positions.get(1), command.getSource().getClient());
+
+        AlgorithmHandler.SINGLETON.queue.add(command1);
         return 0;
     }
 
