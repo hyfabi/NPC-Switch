@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "at.hyfabi.npcswitch.mixin.client",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "ExampleClientMixin",
+    "KeyboardMixin",
+    "PlayerTicker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}

@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "npcswitch",
+	"version": "${version}",
+	"name": "NPCSwitch",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/npcswitch/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"at.hyfabi.npcswitch.NPCSwitch"
+		],
+		"client": [
+			"at.hyfabi.npcswitch.NPCSwitchClient"
+		],
+		"fabric-datagen": [
+			"at.hyfabi.npcswitch.NPCSwitchDataGenerator"
+		]
+	},
+	"mixins": [
+		"npcswitch.mixins.json",
+		{
+			"config": "npcswitch.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.6",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
