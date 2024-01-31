@@ -3,6 +3,9 @@ package at.hyfabi.npcswitch;
 import at.hyfabi.npcswitch.algorithm.AlgorithmHandler;
 import at.hyfabi.npcswitch.algorithm.Command;
 import at.hyfabi.npcswitch.algorithm.DigSquare;
+import at.hyfabi.npcswitch.algorithm.LookAt;
+import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -22,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 
@@ -37,15 +41,29 @@ public class MCCommand {
             dispatcher.register(literal("dig").executes(MCCommand::executeDig));
             dispatcher.register(literal("start").executes(MCCommand::startAlg));
             dispatcher.register(literal("look").executes(context -> {
-
-                ClientPlayerEntity mc = Objects.requireNonNull(context.getSource().getClient().player);
-                mc.setYaw(90);
-                mc.setPitch(90);
-
-
-
+                new LookAt(positions.get(positions.size()-1), context.getSource().getClient() );
                 return 0;
             }));
+            dispatcher.register(literal("cam").executes(context -> {
+                test = !test;
+                return 0;
+            }));
+            dispatcher.register(literal("cl").executes(context -> {
+                positions.clear();
+                return 0;
+            }));
+            dispatcher.register(literal("yaw")
+                    .then(argument("yaw", FloatArgumentType.floatArg())
+                    .executes(context -> {
+                        Objects.requireNonNull(context.getSource().getClient().player).setYaw(FloatArgumentType.getFloat(context, "yaw"));
+                    return 0;
+            })));
+            dispatcher.register(literal("pitch")
+                    .then(argument("pitch", FloatArgumentType.floatArg())
+                            .executes(context -> {
+                                Objects.requireNonNull(context.getSource().getClient().player).setPitch(FloatArgumentType.getFloat(context, "pitch"));
+                                return 0;
+                            })));
             dispatcher.register(literal("cam").executes(context -> {
                 test = !test;
                 return 0;
